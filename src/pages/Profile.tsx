@@ -97,29 +97,29 @@ const Profile = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="container max-w-4xl py-8 px-4">
-        <div className="mb-8">
+      <main className="container max-w-4xl py-4 sm:py-8 px-4 sm:px-6">
+        <div className="mb-6 sm:mb-8">
           <Card>
-            <CardHeader className="text-center">
-              <Avatar className="w-24 h-24 mx-auto mb-4">
+            <CardHeader className="text-center p-4 sm:p-6">
+              <Avatar className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-3 sm:mb-4">
                 {profile?.avatar_url && <AvatarImage src={profile.avatar_url} />}
-                <AvatarFallback className="text-3xl">
+                <AvatarFallback className="text-2xl sm:text-3xl">
                   {profile?.username?.[0]?.toUpperCase() || 'U'}
                 </AvatarFallback>
               </Avatar>
-              <CardTitle className="text-2xl">{profile?.username}</CardTitle>
-              <p className="text-muted-foreground">{profile?.full_name || 'No name set'}</p>
+              <CardTitle className="text-xl sm:text-2xl">{profile?.username}</CardTitle>
+              <p className="text-sm sm:text-base text-muted-foreground">{profile?.full_name || 'No name set'}</p>
             </CardHeader>
-            <CardContent>
-              <p className="text-center">{profile?.bio || 'No bio yet'}</p>
+            <CardContent className="px-4 sm:px-6">
+              <p className="text-center text-sm sm:text-base break-words">{profile?.bio || 'No bio yet'}</p>
             </CardContent>
           </Card>
         </div>
 
         <Tabs defaultValue="posts" className="w-full">
-          <TabsList className={`grid w-full ${isOwnProfile ? 'grid-cols-2' : 'grid-cols-1'}`}>
-            <TabsTrigger value="posts">{isOwnProfile ? 'My Posts' : 'Posts'}</TabsTrigger>
-            {isOwnProfile && <TabsTrigger value="edit">Edit Profile</TabsTrigger>}
+          <TabsList className={`grid w-full ${isOwnProfile ? 'grid-cols-2' : 'grid-cols-1'} h-auto`}>
+            <TabsTrigger value="posts" className="text-xs sm:text-sm py-2">{isOwnProfile ? 'My Posts' : 'Posts'}</TabsTrigger>
+            {isOwnProfile && <TabsTrigger value="edit" className="text-xs sm:text-sm py-2">Edit Profile</TabsTrigger>}
           </TabsList>
           <TabsContent value="posts" className="space-y-4 mt-6">
             {posts.length === 0 ? (

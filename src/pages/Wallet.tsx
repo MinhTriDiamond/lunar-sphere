@@ -35,14 +35,17 @@ const Wallet = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="container max-w-2xl py-8">
-        <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
+      <main className="container max-w-2xl py-4 sm:py-8 px-4 sm:px-6">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
           Your Web3 Wallet
         </h1>
         <Tabs defaultValue="evm" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-6">
-            <TabsTrigger value="evm">Ethereum & BSC</TabsTrigger>
-            <TabsTrigger value="solana">Solana</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 mb-4 sm:mb-6 h-auto">
+            <TabsTrigger value="evm" className="text-xs sm:text-sm px-2 sm:px-4 py-2">
+              <span className="hidden sm:inline">Ethereum & BSC</span>
+              <span className="sm:hidden">EVM</span>
+            </TabsTrigger>
+            <TabsTrigger value="solana" className="text-xs sm:text-sm px-2 sm:px-4 py-2">Solana</TabsTrigger>
           </TabsList>
           <TabsContent value="evm" className="space-y-6">
             <WalletConnect />

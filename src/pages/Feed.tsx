@@ -58,7 +58,7 @@ const Feed = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="container max-w-2xl py-8">
+      <main className="container max-w-2xl py-4 sm:py-8 px-4 sm:px-6">
         <CreatePost onPostCreated={fetchPosts} />
         
         {loading ? (

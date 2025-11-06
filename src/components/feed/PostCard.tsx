@@ -4,11 +4,12 @@ import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Heart, Trash2, Share2, MessageCircle, Repeat2 } from 'lucide-react';
+import { Heart, Trash2, Share2, MessageCircle, Repeat2, Pencil } from 'lucide-react';
 import { toast } from 'sonner';
 import { formatDistanceToNow } from 'date-fns';
 import { CommentSection } from './CommentSection';
 import { ImageViewer } from './ImageViewer';
+import { EditPostDialog } from './EditPostDialog';
 
 interface PostCardProps {
   post: {
@@ -38,6 +39,7 @@ export const PostCard = ({ post, currentUserId, onPostDeleted }: PostCardProps) 
   const [showImageViewer, setShowImageViewer] = useState(false);
   const [commentCount, setCommentCount] = useState(post.comments.length);
   const [showComments, setShowComments] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
 
   const handleLike = async () => {
     try {
@@ -99,25 +101,25 @@ export const PostCard = ({ post, currentUserId, onPostDeleted }: PostCardProps) 
   return (
     <>
       <Card className="mb-4 hover:shadow-lg transition-shadow">
-        <CardHeader className="flex flex-row items-center gap-4">
-          <Avatar className="cursor-pointer" onClick={handleProfileClick}>
+        <CardHeader className="flex flex-row items-center gap-2 sm:gap-4 px-4 sm:px-6 py-3 sm:py-6">
+          <Avatar className="cursor-pointer w-8 h-8 sm:w-10 sm:h-10" onClick={handleProfileClick}>
             {post.profiles.avatar_url && <AvatarImage src={post.profiles.avatar_url} />}
             <AvatarFallback>{post.profiles.username[0].toUpperCase()}</AvatarFallback>
           </Avatar>
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <h3 
-              className="font-semibold cursor-pointer hover:underline" 
+              className="font-semibold cursor-pointer hover:underline text-sm sm:text-base truncate" 
               onClick={handleProfileClick}
             >
               {post.profiles.username}
             </h3>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs sm:text-sm text-muted-foreground">
               {formatDistanceToNow(new Date(post.created_at), { addSuffix: true })}
             </p>
           </div>
         </CardHeader>
-        <CardContent className="space-y-4">
-          {post.content && <p className="whitespace-pre-wrap">{post.content}</p>}
+        <CardContent className="space-y-4 px-4 sm:px-6">
+          {post.content && <p className="whitespace-pre-wrap text-sm sm:text-base break-words">{post.content}</p>}
           
           {post.image_url && (
             <>
@@ -145,38 +147,46 @@ export const PostCard = ({ post, currentUserId, onPostDeleted }: PostCardProps) 
             </video>
           )}
         </CardContent>
-        <CardFooter className="flex flex-col gap-4">
-          <div className="flex items-center gap-4 w-full">
+        <CardFooter className="flex flex-col gap-4 px-4 sm:px-6 py-3 sm:py-4">
+          <div className="flex items-center gap-2 sm:gap-4 w-full flex-wrap">
             <Button
               variant="ghost"
               size="sm"
               onClick={handleLike}
-              className={liked ? 'text-destructive' : ''}
+              className={`${liked ? 'text-destructive' : ''} text-xs sm:text-sm`}
             >
-              <Heart className={`w-4 h-4 mr-2 ${liked ? 'fill-current' : ''}`} />
-              {likeCount}
+              <Heart className={`w-4 h-4 mr-1 sm:mr-2 ${liked ? 'fill-current' : ''}`} />
+              <span className="hidden sm:inline">{likeCount}</span>
+              <span className="sm:hidden">{likeCount}</span>
             </Button>
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setShowComments(!showComments)}
+              className="text-xs sm:text-sm"
             >
-              <MessageCircle className="w-4 h-4 mr-2" />
-              {commentCount}
+              <MessageCircle className="w-4 h-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">{commentCount}</span>
+              <span className="sm:hidden">{commentCount}</span>
             </Button>
             {post.user_id !== currentUserId && (
-              <Button variant="ghost" size="sm" onClick={handleRepost}>
-                <Repeat2 className="w-4 h-4 mr-2" />
-                Share
+              <Button variant="ghost" size="sm" onClick={handleRepost} className="text-xs sm:text-sm">
+                <Repeat2 className="w-4 h-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Share</span>
               </Button>
             )}
-            <Button variant="ghost" size="sm" onClick={handleShare}>
+            <Button variant="ghost" size="sm" onClick={handleShare} className="text-xs sm:text-sm">
               <Share2 className="w-4 h-4" />
             </Button>
             {post.user_id === currentUserId && (
-              <Button variant="ghost" size="sm" onClick={handleDelete} className="ml-auto">
-                <Trash2 className="w-4 h-4" />
-              </Button>
+              <>
+                <Button variant="ghost" size="sm" onClick={() => setShowEditDialog(true)} className="text-xs sm:text-sm">
+                  <Pencil className="w-4 h-4" />
+                </Button>
+                <Button variant="ghost" size="sm" onClick={handleDelete} className="text-xs sm:text-sm ml-auto">
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              </>
             )}
           </div>
           {showComments && (
@@ -184,6 +194,13 @@ export const PostCard = ({ post, currentUserId, onPostDeleted }: PostCardProps) 
           )}
         </CardFooter>
       </Card>
+      
+      <EditPostDialog
+        post={post}
+        isOpen={showEditDialog}
+        onClose={() => setShowEditDialog(false)}
+        onPostUpdated={onPostDeleted}
+      />
     </>
   );
 };

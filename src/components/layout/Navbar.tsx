@@ -25,12 +25,13 @@ export const Navbar = () => {
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-3">
-            <img src="/logo.jpg" alt="F.U. Profile" className="w-10 h-10 rounded-full" />
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
-              F.U. Profile
+      <div className="container flex h-14 sm:h-16 items-center justify-between px-3 sm:px-4">
+        <div className="flex items-center gap-2 sm:gap-6 min-w-0 flex-1">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            <img src="/logo.jpg" alt="F.U. Profile" className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex-shrink-0" />
+            <h1 className="text-base sm:text-2xl font-bold bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent truncate">
+              <span className="hidden sm:inline">F.U. Profile</span>
+              <span className="sm:hidden">F.U.</span>
             </h1>
           </div>
           <div className="hidden md:flex items-center gap-2">
@@ -48,13 +49,24 @@ export const Navbar = () => {
             </Button>
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={toggleDarkMode}>
+        <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+          <div className="md:hidden flex items-center gap-1">
+            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate('/')}>
+              <Home className="w-4 h-4" />
+            </Button>
+            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate('/profile')}>
+              <User className="w-4 h-4" />
+            </Button>
+            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate('/wallet')}>
+              <Wallet className="w-4 h-4" />
+            </Button>
+          </div>
+          <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-10 sm:w-10" onClick={toggleDarkMode}>
             {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </Button>
-          <Button variant="ghost" size="sm" onClick={handleLogout}>
-            <LogOut className="w-4 h-4 mr-2" />
-            Logout
+          <Button variant="ghost" size="sm" className="text-xs sm:text-sm px-2 sm:px-4 h-8 sm:h-10" onClick={handleLogout}>
+            <LogOut className="w-4 h-4 sm:mr-2" />
+            <span className="hidden sm:inline">Logout</span>
           </Button>
         </div>
       </div>

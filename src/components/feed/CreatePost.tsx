@@ -129,13 +129,13 @@ export const CreatePost = ({ onPostCreated }: CreatePostProps) => {
   };
 
   return (
-    <Card className="p-4 mb-6">
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <Card className="p-3 sm:p-4 mb-4 sm:mb-6">
+      <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
         <Textarea
           placeholder="What's on your mind?"
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          className="min-h-[100px] resize-none"
+          className="min-h-[80px] sm:min-h-[100px] resize-none text-sm sm:text-base"
           disabled={loading}
         />
         
@@ -179,8 +179,8 @@ export const CreatePost = ({ onPostCreated }: CreatePostProps) => {
           </div>
         )}
 
-        <div className="flex items-center justify-between">
-          <div className="flex gap-2">
+        <div className="flex items-center justify-between flex-wrap gap-2">
+          <div className="flex gap-1 sm:gap-2">
             <Input
               id="image-upload"
               type="file"
@@ -195,9 +195,10 @@ export const CreatePost = ({ onPostCreated }: CreatePostProps) => {
               size="sm"
               onClick={() => document.getElementById('image-upload')?.click()}
               disabled={loading}
+              className="text-xs sm:text-sm px-2 sm:px-3"
             >
-              <ImagePlus className="w-4 h-4 mr-2" />
-              Photo
+              <ImagePlus className="w-4 h-4 sm:mr-2" />
+              <span className="hidden sm:inline">Photo</span>
             </Button>
             
             <Input
@@ -214,12 +215,13 @@ export const CreatePost = ({ onPostCreated }: CreatePostProps) => {
               size="sm"
               onClick={() => document.getElementById('video-upload')?.click()}
               disabled={loading}
+              className="text-xs sm:text-sm px-2 sm:px-3"
             >
-              <Video className="w-4 h-4 mr-2" />
-              Video
+              <Video className="w-4 h-4 sm:mr-2" />
+              <span className="hidden sm:inline">Video</span>
             </Button>
           </div>
-          <Button type="submit" disabled={loading || (!content.trim() && !image && !video)}>
+          <Button type="submit" disabled={loading || (!content.trim() && !image && !video)} size="sm" className="text-xs sm:text-sm">
             {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
             {loading ? 'Posting...' : 'Post'}
           </Button>
